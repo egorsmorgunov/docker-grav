@@ -15,9 +15,17 @@ RUN rm -fR /usr/share/nginx/html/ && git clone https://github.com/getgrav/grav.g
 
 #Install Grav
 WORKDIR /usr/share/nginx/html/
-RUN bin/composer.phar self-update && bin/composer.phar config -g github-oauth.github.com 77620ab0f367d07d3f14d7ef5ff64167d1b5de14 && bin/grav install && chown www-data:www-data . && \
-    chown -R www-data:www-data * && find . -type f | xargs chmod 664 && find . -type d | xargs chmod 775 && find . -type d | xargs chmod +s && umask 0002 && chmod 777 -R assets && \
-    chmod +x bin/gpm && bin/gpm install -y admin youtube snappygrav toc tidyhtml pages-json shortcodes markdown-color logerrors instagram gravstrap markdown-sections leaflet data-manager breadcrumbs highlight pagination random simplesearch taxonomylist github lightslider relatedpages page-inject optimus read_later metadata_extended external_links mathjax filesource && \
+RUN bin/composer.phar self-update
+RUN bin/grav install
+RUN chown www-data:www-data . && chown -R www-data:www-data *
+
+RUN find . -type f | xargs -d '\n' chmod 664
+RUN find . -type d | xargs -d '\n' chmod 775
+RUN find . -type d | xargs -d '\n' chmod +s
+
+RUN umask 0002 && chmod 777 -R assets && \
+    chmod +x bin/gpm
+RUN bin/gpm install -y admin youtube snappygrav toc tidyhtml pages-json shortcodes markdown-color logerrors instagram gravstrap markdown-sections leaflet data-manager breadcrumbs highlight pagination random simplesearch taxonomylist github lightslider relatedpages page-inject optimus read_later metadata_extended external_links mathjax filesource && \
     echo "Europe/Moscow" > /etc/timezone && dpkg-reconfigure tzdata
 
 #Configure Nginx - enable gzip
