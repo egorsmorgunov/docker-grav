@@ -1,0 +1,8 @@
+#!/bin/bash
+if [ ! -f /initialized ]
+then
+  touch /initialized
+  cd /init
+  cp -R . /usr/share/nginx/html/user/
+  chown -R www-data:www-data /usr/share/nginx/html
+fi
