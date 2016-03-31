@@ -5,4 +5,8 @@ then
   cd /init
   cp -R . /usr/share/nginx/html/user/
   chown -R www-data:www-data /usr/share/nginx/html
+  cd /usr/share/nginx/html
+  rm -rf cache
+  ln -s ./user/cache cache
+  chmod 777 -R ./user/cache
 fi

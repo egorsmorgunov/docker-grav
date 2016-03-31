@@ -49,9 +49,9 @@ RUN touch /etc/nginx/grav_conf.sh && chmod +x /etc/nginx/grav_conf.sh && echo '#
     done < /usr/share/nginx/html/webserver-configs/nginx.conf' >> /etc/nginx/grav_conf.sh
 
 RUN /etc/nginx/grav_conf.sh && sed -i \
-        -e 's|root   html|root   /usr/share/nginx/html|' \
-        -e 's|127.0.0.1:9000;|unix:/var/run/php5-fpm.sock;|' \
-        -e 's|/home/user/www/html|/usr/share/nginx/html|g' \
+        -e 's|root /home/USER/www/html\;$|root /usr/share/nginx/html\;|' \
+        -e 's|127.0.0.1:9000;|unix:/var/run/php5-fpm.sock\;|' \
+        -e 's|/home/user/www/html|/usr/share/nginx/html|ig' \
     /etc/nginx/sites-available/default
 
 #Setup Php service
