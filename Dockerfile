@@ -11,7 +11,7 @@ ENV DEBIAN_FRONTEND noninteractive
 RUN apt-get update -q && apt-get upgrade -y -q && apt-get install -y -q php5 php5-cli php5-fpm php5-gd php5-curl php5-apcu ca-certificates nginx git-core && apt-get clean -q && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 #Get Grav
-RUN rm -fR /usr/share/nginx/html/ && git clone https://github.com/getgrav/grav.git /usr/share/nginx/html/ && mkdir -p /usr/share/nginx/html/user/cache && chown www-data -R /usr/share/nginx/html/user/cache && ln -s /usr/share/nginx/html/user/cache /usr/share/nginx/html/cache
+RUN rm -fR /usr/share/nginx/html/ && git clone https://github.com/getgrav/grav.git /usr/share/nginx/html/
 
 #Install Grav
 WORKDIR /usr/share/nginx/html/
@@ -49,9 +49,9 @@ RUN touch /etc/nginx/grav_conf.sh && chmod +x /etc/nginx/grav_conf.sh && echo '#
     done < /usr/share/nginx/html/webserver-configs/nginx.conf' >> /etc/nginx/grav_conf.sh
 
 RUN /etc/nginx/grav_conf.sh && sed -i \
-        -e 's|root /home/USER/www/html\;$|root /usr/share/nginx/html\;|' \
-        -e 's|127.0.0.1:9000;|unix:/var/run/php5-fpm.sock\;|' \
-        -e 's|/home/user/www/html|/usr/share/nginx/html|ig' \
+        -e 's|root   html|root   /usr/share/nginx/html|' \
+        -e 's|127.0.0.1:9000;|unix:/var/run/php5-fpm.sock;|' \
+        -e 's|/home/USER/www/html|/usr/share/nginx/html|ig' \
     /etc/nginx/sites-available/default
 
 #Setup Php service
