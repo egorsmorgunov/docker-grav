@@ -1,4 +1,4 @@
-FROM phusion/baseimage:0.9.18
+FROM phusion/baseimage:0.11
 
 MAINTAINER Ahumaro Mendoza <ahumaro@ahumaro.com>, Dmitrii Zolotov <dzolotov@herzen.spb.ru>
 
@@ -8,7 +8,7 @@ ENV HOME /root
 ENV DEBIAN_FRONTEND noninteractive
 
 #Install core packages
-RUN apt-get update -q && apt-get upgrade -y -q && apt-get install -y -q php5 php5-cli php5-fpm php5-gd php5-curl php5-apcu ca-certificates nginx git-core && apt-get clean -q && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+RUN apt-get update -q && apt-get upgrade -y -q && apt-get install -y -q php php-mbstring php-zip php-dom php-cli php-fpm php-gd php-curl php-apcu ca-certificates nginx git-core && apt-get clean -q && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 #Get Grav
 RUN rm -fR /usr/share/nginx/html/ && git clone https://github.com/getgrav/grav.git /usr/share/nginx/html/
@@ -25,8 +25,8 @@ RUN find . -type d | xargs -d '\n' chmod +s
 
 RUN umask 0002 && chmod 777 -R assets && \
     chmod +x bin/gpm
-RUN sed -i 's/allow_url_fopen.*/allow_url_fopen = Off/ig' /etc/php5/cli/php.ini && \
-    sed -i 's/allow_url_fopen.*/allow_url_fopen = Off/ig' /etc/php5/fpm/php.ini
+RUN sed -i 's/allow_url_fopen.*/allow_url_fopen = Off/ig' /etc/php/7.2/cli/php.ini && \
+    sed -i 's/allow_url_fopen.*/allow_url_fopen = Off/ig' /etc/php/7.2/fpm/php.ini
 RUN bin/gpm install -y admin youtube snappygrav toc tidyhtml pages-json shortcodes markdown-color logerrors instagram gravstrap markdown-sections leaflet data-manager breadcrumbs highlight pagination random simplesearch taxonomylist github lightslider relatedpages page-inject optimus read_later metadata_extended external_links mathjax filesource qrcode && \
     echo "Europe/Moscow" > /etc/timezone && dpkg-reconfigure tzdata
 
@@ -52,13 +52,13 @@ RUN touch /etc/nginx/grav_conf.sh && chmod +x /etc/nginx/grav_conf.sh && echo '#
 
 RUN /etc/nginx/grav_conf.sh && sed -i \
         -e 's|root   html|root   /usr/share/nginx/html|' \
-        -e 's|127.0.0.1:9000;|unix:/var/run/php5-fpm.sock;|' \
+        -e 's|127.0.0.1:9000;|unix:/var/run/php-fpm.sock;|' \
         -e 's|/home/USER/www/html|/usr/share/nginx/html|ig' \
     /etc/nginx/sites-available/default
 
 #Setup Php service
-RUN mkdir -p /etc/service/php5-fpm && touch /etc/service/php5-fpm/run && chmod +x /etc/service/php5-fpm/run && echo '#!/bin/bash \n\
-exec /usr/sbin/php5-fpm -F' >> /etc/service/php5-fpm/run
+RUN mkdir -p /etc/service/php-fpm && touch /etc/service/php-fpm/run && chmod +x /etc/service/php-fpm/run && echo '#!/bin/bash \n\
+exec /usr/sbin/php-fpm7.2 -F' >> /etc/service/php-fpm/run
 
 #Setup Nginx service
 RUN mkdir -p /etc/service/nginx && touch /etc/service/nginx/run && chmod +x /etc/service/nginx/run && echo '#!/bin/bash \n\

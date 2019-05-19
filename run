@@ -1,4 +1,8 @@
 #!/bin/bash
+mkdir -p /run/php
+
+ls -la /init
+
 if [ ! -f /usr/share/nginx/html/user/initialized ]
 then
   touch /usr/share/nginx/html/user/initialized
@@ -8,10 +12,11 @@ fi
 
 if [ ! -h /usr/share/nginx/html/cache ]
 then
+  echo "Creating cache"
   cd /usr/share/nginx/html
   rm -rf cache
-  ln -s ./user/cache cache
-  chmod 777 -R ./user/cache
+#  ln -s ./user/cache cache
+#  chmod 777 -R ./user/cache
 fi
 
 chown -R www-data:www-data /usr/share/nginx/html
