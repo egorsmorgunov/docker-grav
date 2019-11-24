@@ -31,7 +31,7 @@ RUN bin/gpm install -y admin youtube snappygrav toc tidyhtml shortcodes \
     markdown-color logerrors instagram markdown-sections leaflet data-manager \
     breadcrumbs highlight pagination random simplesearch taxonomylist github lightslider \
     relatedpages page-inject optimus external_links mathjax filesource qrcode \
-    table-importer admin-addon-user-manager rich-preview editor core-service-manager && \
+    table-importer admin-addon-user-manager editor core-service-manager && \
     echo "Europe/Moscow" > /etc/timezone && dpkg-reconfigure tzdata
 
 #Configure Nginx - enable gzip
