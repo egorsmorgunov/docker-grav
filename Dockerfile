@@ -1,4 +1,4 @@
-FROM phusion/base-image:0.11
+FROM phusion/baseimage:0.11
 
 MAINTAINER Ahumaro Mendoza <ahumaro@ahumaro.com>, Dmitrii Zolotov <dzolotov@herzen.spb.ru>
 
