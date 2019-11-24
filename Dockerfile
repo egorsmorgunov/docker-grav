@@ -1,4 +1,4 @@
-FROM phusion/baseimage:0.11
+FROM ubuntu:latest
 
 MAINTAINER Ahumaro Mendoza <ahumaro@ahumaro.com>, Dmitrii Zolotov <dzolotov@herzen.spb.ru>
 
@@ -27,7 +27,11 @@ RUN umask 0002 && chmod 777 -R assets && \
     chmod +x bin/gpm
 RUN sed -i 's/allow_url_fopen.*/allow_url_fopen = Off/ig' /etc/php/7.2/cli/php.ini && \
     sed -i 's/allow_url_fopen.*/allow_url_fopen = Off/ig' /etc/php/7.2/fpm/php.ini
-RUN bin/gpm install -y admin youtube snappygrav toc tidyhtml pages-json shortcodes markdown-color logerrors instagram gravstrap markdown-sections leaflet data-manager breadcrumbs highlight pagination random simplesearch taxonomylist github lightslider relatedpages page-inject optimus read_later metadata_extended external_links mathjax filesource qrcode && \
+RUN bin/gpm install -y admin youtube snappygrav toc tidyhtml pages-json shortcodes \
+    markdown-color logerrors instagram gravstrap markdown-sections leaflet data-manager \
+    breadcrumbs highlight pagination random simplesearch taxonomylist github lightslider \
+    relatedpages page-inject optimus read_later metadata_extended external_links mathjax filesource qrcode \
+    table-importer admin-addon-user-manager rich-preview editor core-service-manager && \
     echo "Europe/Moscow" > /etc/timezone && dpkg-reconfigure tzdata
 
 #Configure Nginx - enable gzip
