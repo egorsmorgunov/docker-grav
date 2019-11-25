@@ -8,7 +8,10 @@ ENV HOME /root
 ENV DEBIAN_FRONTEND noninteractive
 
 #Install core packages
-RUN apt-get update -q && apt-get upgrade -y -q && apt-get install -y -q php php-mbstring php-zip php-dom php-cli php-fpm php-gd php-curl php-apcu ca-certificates nginx git-core && apt-get clean -q && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+RUN apt-get update -q && apt-get upgrade -y -q && apt-get install -y -q php php-mbstring php-zip \
+    php-dom php-cli php-fpm php-gd php-curl php-apcu ca-certificates nginx git-core php-ctype php-json \
+    php-fdomdocument php-fxsl php-simplexml php-xml php-opcache php-yaml php-xdebug && \
+    apt-get clean -q && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 #Get Grav
 RUN rm -fR /usr/share/nginx/html/ && git clone https://github.com/getgrav/grav.git /usr/share/nginx/html/
