@@ -1,6 +1,11 @@
 #!/bin/bash
 mkdir -p /run/php
 
+useradd dev
+usermod -G www-data -d /usr/share/nginx/html/user dev
+echo "dev:dev" | chpasswd
+mkdir -p /run/sshd && /usr/sbin/sshd -D
+
 if [ ! -f /usr/share/nginx/html/user/initialized ]
 then
   touch /usr/share/nginx/html/user/initialized
@@ -17,6 +22,7 @@ then
   mkdir -p ./user/cache
   ln -s ./user/cache cache
   chmod 777 -R ./user/cache
-  chmod 777 cache
+  chmod 777 -R cache
+else
+  chmod 777 -R /usr/share/nginx/html/cache
 fi
-

@@ -9,7 +9,7 @@ ENV DEBIAN_FRONTEND noninteractive
 
 #Install core packages
 RUN apt-get update -q && apt-get upgrade -y -q && apt-get install -y -q php php-mbstring php-zip \
-    php-dom php-cli php-fpm php-gd php-curl php-apcu ca-certificates nginx git-core php-ctype php-json php-imagick \
+    php-dom php-cli php-fpm php-gd php-curl php-apcu ca-certificates nginx git-core php-ctype php-json php-imagick openssh-server \
     php-fdomdocument php-fxsl php-simplexml php-xml php-opcache php-yaml php-xdebug && \
     apt-get clean -q && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
@@ -80,4 +80,4 @@ ADD run /etc/service/mrun/run
 VOLUME /usr/share/nginx/html/user
 
 #Public ports
-EXPOSE 80
+EXPOSE 22 80
