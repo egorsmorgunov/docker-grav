@@ -25,4 +25,7 @@ then
   chmod 777 -R cache
 else
   chmod 777 -R /usr/share/nginx/html/cache
+  rm -rf /usr/share/nginx/html/cache
+  ln -s /usr/share/nginx/html/user/cache /usr/share/nginx/html/cache
+  chmod 777 -R /usr/share/nginx/html/cache
 fi
