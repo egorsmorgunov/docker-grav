@@ -29,11 +29,13 @@ RUN find . -type d | xargs -d '\n' chmod +s
 RUN umask 0002 && chmod 777 -R assets && \
     chmod +x bin/gpm
 RUN sed -i 's/allow_url_fopen.*/allow_url_fopen = Off/ig' /etc/php/7.2/cli/php.ini && \
-    sed -i 's/allow_url_fopen.*/allow_url_fopen = Off/ig' /etc/php/7.2/fpm/php.ini
+    sed -i 's/allow_url_fopen.*/allow_url_fopen = Off/ig' /etc/php/7.2/fpm/php.ini && \
+    sed -i 's/session.gc_maxlifetime.*/session.gc_maxlifetime = 6048000/ig' /etc/php/7.2/cli/php.ini && \
+    sed -i 's/session.gc_maxlifetime.*/session.gc_maxlifetime = 6048000/ig' /etc/php/7.2/fpm/php.ini 
 RUN bin/gpm install -y admin youtube snappygrav toc tidyhtml shortcodes \
     markdown-color logerrors instagram markdown-sections leaflet data-manager \
     breadcrumbs highlight pagination random simplesearch taxonomylist github lightslider \
-    relatedpages page-inject optimus external_links mathjax filesource qrcode \
+    relatedpages page-inject external_links mathjax filesource qrcode \
     table-importer admin-addon-user-manager editor core-service-manager && \
     echo "Europe/Moscow" > /etc/timezone && dpkg-reconfigure tzdata
 
