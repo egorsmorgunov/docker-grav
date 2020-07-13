@@ -75,11 +75,11 @@ exec /usr/sbin/nginx -g "daemon off;"' >>  /etc/service/nginx/run
 
 RUN mkdir /init && cd /usr/share/nginx/html/user/ && cp -R . /init/
 
-RUN mkdir -p /etc/service/mrun
-ADD run /etc/service/mrun/run
+#RUN mkdir -p /etc/service/mrun
+COPY docker-entrypoint.sh /usr/local/bin
 
 #Expose configuration and content volumes
 VOLUME /usr/share/nginx/html/user
-
+ENTRYPOINT ["docker-entrypoint.sh"]
 #Public ports
 EXPOSE 22 80
